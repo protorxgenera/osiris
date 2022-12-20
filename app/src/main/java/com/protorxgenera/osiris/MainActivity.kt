@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,8 +35,49 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Text (text = "Hello World!")
+            val squareSize = 100.dp
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                ClickableBox(
+                    modifier = Modifier
+                        .background(DarkGray)
+                        .height(squareSize)
+                        .width(squareSize)
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Box(
+                    modifier = Modifier
+                        .height(squareSize)
+                        .width(squareSize)
+                        .background(IntenseBlue)
+                )
+            }
 
         }
     }
+}
+
+@Composable
+fun ClickableBox(modifier: Modifier) {
+
+    val listOfColors = listOf(
+        Purple40,
+        PurpleGrey40,
+        Pink40,
+        IntenseBlue,
+        DarkBlue,
+        DarkCyan,
+        DarkPink
+    )
+
+    Box(modifier.clickable {
+
+    }) {
+        listOfColors.random()
+    }
+
 }
