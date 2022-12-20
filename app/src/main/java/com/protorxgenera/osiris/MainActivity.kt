@@ -1,19 +1,12 @@
 package com.protorxgenera.osiris
 
 import android.os.Bundle
-import android.widget.CheckBox
-import android.widget.Switch
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.material3.ButtonDefaults.buttonColors
-import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,12 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
-import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protorxgenera.osiris.ui.theme.*
 
@@ -36,6 +23,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val squareSize = 100.dp
+            val ourColor = remember {
+                mutableStateOf (IntenseBlue)
+            }
 
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -47,22 +37,24 @@ class MainActivity : ComponentActivity() {
                         .background(DarkGray)
                         .height(squareSize)
                         .width(squareSize)
-                )
+                ) {
+                    color: Color ->
+                    ourColor.value = color
+                }
                 Spacer(modifier = Modifier.height(24.dp))
                 Box(
                     modifier = Modifier
                         .height(squareSize)
                         .width(squareSize)
-                        .background(IntenseBlue)
+                        .background(ourColor.value)
                 )
             }
-
         }
     }
 }
 
 @Composable
-fun ClickableBox(modifier: Modifier) {
+fun ClickableBox(modifier: Modifier, function: (Color) -> Unit) {
 
     val listOfColors = listOf(
         Purple40,
@@ -77,7 +69,7 @@ fun ClickableBox(modifier: Modifier) {
     Box(modifier.clickable {
 
     }) {
-        listOfColors.random()
+        function(listOfColors.random())
     }
 
 }
