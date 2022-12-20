@@ -30,12 +30,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.protorxgenera.osiris.ui.theme.*
 
+// from the Philipp Lackner tutorial
+// use rememberMutableState, access the value through .value, enclose in *lambda* function remember
+
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val squareSize = 100.dp
+            val squareSize = 150.dp
 
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -44,16 +47,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 ClickableBox(
                     modifier = Modifier
-                        .background(DarkGray)
                         .height(squareSize)
                         .width(squareSize)
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                Box(
-                    modifier = Modifier
-                        .height(squareSize)
-                        .width(squareSize)
-                        .background(IntenseBlue)
                 )
             }
 
@@ -62,22 +57,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ClickableBox(modifier: Modifier) {
+fun ClickableBox(modifier: Modifier = Modifier) {
 
+    val myColor = remember {
+        mutableStateOf(IntenseBlue)
+    }
     val listOfColors = listOf(
-        Purple40,
-        PurpleGrey40,
-        Pink40,
-        IntenseBlue,
-        DarkBlue,
-        DarkCyan,
-        DarkPink
+        Purple40, PurpleGrey40, Pink40, IntenseBlue, DarkBlue, DarkCyan, DarkPink
     )
 
-    Box(modifier.clickable {
-
-    }) {
-        listOfColors.random()
-    }
-
+    Box(modifier = modifier
+        .background(myColor.value)
+        .clickable {
+            myColor.value = listOfColors.random()
+        })
 }
